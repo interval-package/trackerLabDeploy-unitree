@@ -24,6 +24,9 @@ class Controller:
         self.config = config
         self.remote_controller = RemoteController()
 
+        self.init_policy()
+        self.init_variables()
+
         if config.msg_type == "hg":
             # g1 and h1_2 use the hg msg type
             self.low_cmd = unitree_hg_msg_dds__LowCmd_()
@@ -160,9 +163,9 @@ class Controller:
             self.qj[i] = self.low_state.motor_state[self.config.leg_joint2motor_idx[i]].q
             self.dqj[i] = self.low_state.motor_state[self.config.leg_joint2motor_idx[i]].dq
         
-        self.cmd[0] = self.remote_controller.ly
-        self.cmd[1] = self.remote_controller.lx * -1
-        self.cmd[2] = self.remote_controller.rx * -1
+        # self.cmd[0] = self.remote_controller.ly
+        # self.cmd[1] = self.remote_controller.lx * -1
+        # self.cmd[2] = self.remote_controller.rx * -1
 
     def construct_obs(self):
         # imu_state quaternion: w, x, y, z

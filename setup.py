@@ -12,7 +12,7 @@ setup(
     maintainer_email="ziang_zheng@foxmail.com",
     url="https://github.com",
     license="BSD-3",
-    description="Robotics oriented world model",
+    description="trackerlab deploy for unitree",
     python_requires=">=3.8",
     install_requires=[
     ],
