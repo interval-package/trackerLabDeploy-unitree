@@ -7,12 +7,33 @@ from tdeployUnitree.common.rotation_helper import get_gravity_orientation, trans
 
 from .controller_base import Controller
 
+from deploylib.deploy_manager import DeployManager, MotionBufferCfg
+from tdeployUnitree.common.joint_names.g1 import LAB_JOINT_NAMES
+from tdeployUnitree.common.motion_align.g1 import MOTION_ALIGN_CFG
+
 
 class ControllerWHC(Controller):
 
     def init_policy(self):
         # Initialize the policy network
         self.policy = torch.jit.load(self.config.policy_path)
+        
+        cfg = MotionBufferCfg(
+            regen_pkl=False,
+            motion_type="GMR",
+            motion_name="amass/booster_k1/deploy.yaml",
+            motion_lib_type="MotionLibDofPos"
+        )
+        
+        self.manager = DeployManager(
+            motion_buffer_cfg=cfg,
+            motion_align_cfg=MOTION_ALIGN_CFG,
+            lab_joint_names=LAB_JOINT_NAMES,
+            robot_type="k1",
+            dt=self.policy_interval,
+            device=self.device
+        )
+        
 
     def init_variables(self):
         # Initializing process variables
